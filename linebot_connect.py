@@ -2,6 +2,7 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from main import reply_message
 
 #登入https://developers.line.biz/zh-hant/
 
@@ -32,11 +33,7 @@ def callback():
 # 處理文字訊息事件
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    reply_message = f"你說了: {event.message.text}"
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=reply_message)
-    )
+    reply_message(event)
 
 if __name__ == "__main__":
     app.run(port=8000)
