@@ -8,6 +8,10 @@ with open('key.json','r') as f:
 openai.api_key = key["openai_key"]
 
 
+#在改之前
+#這是一個專門用來回應用的
+#linebot_connect 會從這裡調用def reply_message
+
 class OpenAI_service():
     def __init__(self,message,user):
         self.message = message

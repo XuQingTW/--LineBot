@@ -14,11 +14,9 @@ with open('key.json','r') as f:
 app = Flask(__name__)
 
 # 設定 Channel Access Token 和 Channel Secret
-LINE_CHANNEL_ACCESS_TOKEN = "你的 Channel Access Token"
-LINE_CHANNEL_SECRET = "你的 Channel Secret"
 
-line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN = key["line_Channel_access_token"])
-handler = WebhookHandler(LINE_CHANNEL_SECRET = key["line_Channel_secret"])
+line_bot_api = LineBotApi( key["line_Channel_access_token"])
+handler = WebhookHandler(key["line_Channel_secret"])
 
 @app.route("/callback", methods=['POST'])
 def callback():
