@@ -3,6 +3,11 @@ from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 from main import reply_message
+import json
+
+with open('key.json','r') as f:
+    key = json.load(f)
+
 
 #登入https://developers.line.biz/zh-hant/
 
@@ -12,8 +17,8 @@ app = Flask(__name__)
 LINE_CHANNEL_ACCESS_TOKEN = "你的 Channel Access Token"
 LINE_CHANNEL_SECRET = "你的 Channel Secret"
 
-line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
-handler = WebhookHandler(LINE_CHANNEL_SECRET)
+line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN = key["line_Channel_access_token"])
+handler = WebhookHandler(LINE_CHANNEL_SECRET = key["line_Channel_secret"])
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -32,8 +37,10 @@ def callback():
 
 # 處理文字訊息事件
 @handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    reply_message(event)
+def handle_message(event: MessageEvent):
+    replay_token = reply_message(event)
+    message = reply_message(event)
+    line_bot_api.reply_message(replay_token,message)
 
 if __name__ == "__main__":
     app.run(port=8000)
